@@ -1,0 +1,50 @@
+body{ 
+    background: #f8f9fa; 
+}
+
+#notificacao-wrapper{ 
+    position: fixed; 
+    left: 16px; 
+    top: 16px; 
+    z-index: 1000;
+}
+
+#btn-notificacao{ 
+    width: 52px; 
+    height: 52px; 
+    border-radius: 999px; 
+    border: 1px solid #ced4da; 
+    background: #fff; 
+    font-size: 22px; 
+    position: relative; 
+}
+
+#btn-notificacao.nivel-atencao{ 
+    background: #fff3cd; 
+}
+
+#btn-notificacao.nivel-critico{ 
+    background: #f8d7da;}
+
+#notificacao-badge{ 
+    position: absolute; 
+    top: -6px; 
+    right: -6px; 
+    min-width: 22px; 
+    height: 22px; 
+    border-radius: 999px; 
+    background: #dc3545; 
+    color: #fff; 
+    font-size: 12px; 
+    display: none; 
+    align-items: center; 
+    justify-content: center; 
+    padding: 0 6px; }
+
+#painel-notificacoes { margin-top: 10px; width: 320px; max-height: 360px; overflow-y: auto; border: 1px solid #dee2e6; border-radius: 8px; background: #fff; padding: 10px; display: none; box-shadow: 0 8px 24px rgba(0,0,0,.12); }
+
+#popup-alerta { position: fixed; inset: 0; background: rgba(0,0,0,.45); display: none; align-items: center; justify-content: center; z-index: 2000; }
+
+#popup-conteudo { background: #fff; padding: 20px; width: min(90vw, 500px); border-radius: 10px; }
+
+.hidden { display: none !important; }

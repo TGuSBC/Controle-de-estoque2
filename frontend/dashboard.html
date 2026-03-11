@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>Dashboard</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+
+<style>
+#notificacao-wrapper { position: fixed; left: 16px; top: 16px; z-index: 1000; }
+#btn-notificacao { width: 52px; height: 52px; border-radius: 999px; border: 1px solid #ced4da; background: #ffffff; font-size: 22px; position: relative; transition: background 0.2s ease; }
+#btn-notificacao.nivel-atencao { background: #fff3cd; }
+#btn-notificacao.nivel-critico { background: #f8d7da; }
+#notificacao-badge { position: absolute; top: -6px; right: -6px; min-width: 22px; height: 22px; border-radius: 999px; background: #dc3545; color: #fff; font-size: 12px; display: none; align-items: center; justify-content: center; padding: 0 6px; }
+#painel-notificacoes { margin-top: 10px; width: 320px; max-height: 360px; overflow-y: auto; border: 1px solid #dee2e6; border-radius: 8px; background: #fff; padding: 10px; display: none; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12); }
+#popup-alerta { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.45); display: none; align-items: center; justify-content: center; z-index: 2000; }
+#popup-conteudo { background: #fff; padding: 20px; width: min(90vw, 500px); border-radius: 10px; }
+</style>
+</head>
+
+<body>
+<div id="notificacao-wrapper">
+<button id="btn-notificacao" type="button" title="Notificações">&#128276;<span id="notificacao-badge">0</span></button>
+<div id="painel-notificacoes"></div>
+</div>
+
+<div class="container mt-4">
+<div class="d-flex justify-content-between align-items-center mb-3">
+<h1 class="mb-0">Dashboard Estoque</h1>
+<div>
+<span id="usuario-logado" class="me-3 text-muted"></span>
+<button id="btn-sair" class="btn btn-outline-secondary btn-sm" type="button">Sair</button>
+</div>
+</div>
+
+<div class="row mb-3">
+<div class="col-md-4">
+<label for="dias" class="form-label">Período (dias)</label>
+<select id="dias" class="form-select">
+<option value="7">Últimos 7 dias</option>
+<option value="15">Últimos 15 dias</option>
+<option value="30" selected>Últimos 30 dias</option>
+<option value="90">Últimos 90 dias</option>
+</select>
+</div>
+</div>
+
+<div class="row">
+<div class="col">
+<div class="card"><div class="card-body"><h5>Total Produtos</h5><h2 id="produtos"></h2></div></div>
+</div>
+<div class="col">
+<div class="card"><div class="card-body"><h5>Movimentações</h5><h2 id="mov"></h2></div></div>
+</div>
+</div>
+
+<div class="card mt-4">
+<div class="card-body">
+<h5 class="mb-3">Movimentações no período</h5>
+<canvas id="graficoMovimentacoes" height="100"></canvas>
+</div>
+</div>
+</div>
+
+<div id="popup-alerta">
+<div id="popup-conteudo">
+<h4 class="mb-3" id="popup-titulo">Atenção: estoque baixo</h4>
+<div id="popup-mensagem" class="mb-3"></div>
+<button class="btn btn-primary" id="fechar-popup" type="button">Fechar</button>
+</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="js/dashboard.js"></script>
+</body>
+</html>
