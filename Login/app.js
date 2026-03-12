@@ -25,6 +25,7 @@ async function requestJson(url, options = {}){
   return d;
 }
 
+
 async function login(){
   const r = await fetch(`${API}/login`, { method:"POST", headers:{"Content-Type":"application/x-www-form-urlencoded"}, body:new URLSearchParams({email:el("email").value, senha:el("senha").value}) });
   const d = await r.json();
@@ -34,12 +35,14 @@ async function login(){
   await entrarApp();
 }
 
+
 async function trocarSenhaInicial(){
   const d = await requestJson(`${API}/trocar-senha-inicial`, { method:"POST", headers: authHeaders(true), body: JSON.stringify({ senha_atual: el("senha_atual").value, nova_senha: el("nova_senha").value }) });
   if(!d){ return; }
   el("troca-res").innerText = "Senha alterada com sucesso.";
   await entrarApp();
 }
+
 
 function atualizarGrafico(labels, valores){
   const ctx = el("graficoMovimentacoes");
@@ -55,17 +58,20 @@ async function carregarDashboard(){
   if(d.grafico){ atualizarGrafico(d.grafico.labels, d.grafico.valores); }
 }
 
+
 async function movimentar(){
-  try {
+  try{
     const d = await requestJson(`${API}/movimentar`, { method:"POST", headers: authHeaders(true), body: JSON.stringify({ sku: el("m_sku").value, corredor: el("m_corredor").value, tipo: el("m_tipo").value, quantidade: parseInt(el("m_qtd").value) }) });
     if(!d){ return; }
     el("mov-res").innerText = d.msg || "Movimenta��o registrada";
     await carregarDashboard();
     await carregarNotificacoes();
-  } catch(e){ el("mov-res").innerText = e.message; }
+} catch(e){ el("mov-res").innerText = e.message; }
 }
 
-function classeNivel(nivel){ return nivel === "CRITICO" ? "danger" : "warning"; }
+function classeNivel(nivel){ return nivel === "CRITICO" ? "danger" : "warning";}
+
+
 function atualizarBadge(total, criticos){
   const badge = el("notificacao-badge");
   const btn = el("btn-notificacao");
@@ -75,11 +81,15 @@ function atualizarBadge(total, criticos){
   if(criticos > 0){ btn.classList.add("nivel-critico"); }
   else if(total > 0){ btn.classList.add("nivel-atencao"); }
 }
+
+
 function atualizarPainel(notificacoes){
   const painel = el("painel-notificacoes");
   if(notificacoes.length === 0){ painel.innerHTML = "<p class='mb-0'>Sem notifica��es no momento.</p>"; return; }
   painel.innerHTML = notificacoes.map(n => `<div class='border-bottom py-2'><span class='badge text-bg-${classeNivel(n.nivel)} mb-1'>${n.nivel}</span><br><strong>${n.nome}</strong><br><small>${n.mensagem}</small></div>`).join("");
 }
+
+
 function mostrarPopup(notificacoes){
   const novas = notificacoes.filter(n => !alertasExibidos.has(n.sku));
   if(novas.length === 0){ return; }

@@ -1,221 +1,121 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Stillus Home - Controle de Estoque</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
-<link rel="stylesheet" href="Login/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="Login/style.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <title>Stillus Home - Controle de Estoque</title>
 </head>
 <body>
-<div id="notificacao-wrapper" class="hidden">
-<button id="btn-notificacao" type="button" title="Notifica��es">&#128276;<span id="notificacao-badge">0</span></button>
-<div id="painel-notificacoes"></div>
-</div>
+  <div id="notificacao-wrapper" class="hidden">
+    <button id="btn-notificacao" type="button" title="Notificaçoes">&#128276;
+      <span id="notificacao-badge">0</span>
+    </button>
+    <div id="painel-notificacoes"></div>
+  </div>
 
-<div class="container py-4" style="max-width: 1100px;">
+  <div class="container py-4" style="max-width: 1100px;">
+    <div id="tela-login" class="card">
+      <div class="card-body" style="max-width: 460px; margin: 0 auto;">
+        <h3 class="mb-2">Stillus Home</h3>
+        <p class="text-muted">Controle de Estoque</p>
+        <input id="email" class="form-control mb-2" placeholder="Email">
+        <input id="senha" type="password" class="form-control mb-3" placeholder="Senha">
+        <button id="btn-login" class="btn btn-primary w-100" type="button">Entrar</button>
+        <a href="Login/trocasenha.html">tela de trocar senha</a>
+        <p id="login-res" class="mt-2 mb-0 text-danger"></p>
+      </div>
+    </div>
 
-<div id="tela-login" class="card">
-<div class="card-body" style="max-width: 460px; margin: 0 auto;">
-<h3 class="mb-2">Stillus Home</h3>
-<p class="text-muted">Controle de Estoque</p>
-<input id="email" class="form-control mb-2" placeholder="Email">
-<input id="senha" type="password" class="form-control mb-3" placeholder="Senha">
-<button id="btn-login" class="btn btn-primary w-100" type="button">Entrar</button>
-<p id="login-res" class="mt-2 mb-0 text-danger"></p>
-</div>
-</div>
+    
 
-<div id="tela-primeiro-acesso" class="card hidden">
-<div class="card-body" style="max-width: 520px; margin: 0 auto;">
-<h4 class="mb-2">Troca obrigat�ria de senha</h4>
-<p class="text-muted">Troque sua senha inicial para continuar.</p>
-<input id="senha_atual" type="password" class="form-control mb-2" placeholder="Senha atual">
-<input id="nova_senha" type="password" class="form-control mb-3" placeholder="Nova senha (m�n. 8)">
-<button id="btn-trocar-senha" class="btn btn-primary" type="button">Salvar nova senha</button>
-<button id="btn-sair-1" class="btn btn-outline-secondary ms-2" type="button">Sair</button>
-<p id="troca-res" class="mt-2 mb-0"></p>
-</div>
-</div>
+    <div id="tela-app" class="hidden">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="mb-0">Dashboard Estoque</h1>
+        <div>
+          <span id="usuario-logado" class="me-3 text-muted"></span>
+          <button id="btn-sair" class="btn btn-outline-secondary btn-sm" type="button">Sair</button>
+        </div>
+      </div>
 
-<div id="tela-app" class="hidden">
-<div class="d-flex justify-content-between align-items-center mb-3">
-<h1 class="mb-0">Dashboard Estoque</h1>
-<div>
-<span id="usuario-logado" class="me-3 text-muted"></span>
-<button id="btn-sair" class="btn btn-outline-secondary btn-sm" type="button">Sair</button>
-</div>
-</div>
+      <div class="row g-3 mb-3">
+        <div class="col-md-4">
+          <label for="dias" class="form-label">Período (dias)</label>
+          <select id="dias" class="form-select">
+            <option value="7">Ultimos 7 dias</option>
+            <option value="15">Ultimos 15 dias</option>
+            <option value="30" selected>Ultimos 30 dias</option>
+            <option value="90">Ultimos 90 dias</option>
+          </select>
+        </div>
+      </div>
 
-<div class="row g-3 mb-3">
-<div class="col-md-4">
-<label for="dias" class="form-label">Per�odo (dias)</label>
-<select id="dias" class="form-select">
-<option value="7">�ltimos 7 dias</option>
-<option value="15">�ltimos 15 dias</option>
-<option value="30" selected>�ltimos 30 dias</option>
-<option value="90">�ltimos 90 dias</option>
-</select>
-</div>
-</div>
+      <div class="row g-3 mb-3">
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-body">
+              <h6>Total Produtos</h6>
+              <h2 id="produtos">0</h2>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-body">
+              <h6>Movimentaçoes</h6>
+              <h2 id="mov">0</h2>
+            </div>
+          </div>
+        </div>
+      </div>
 
-<div class="row g-3 mb-3">
-<div class="col-md-6"><div class="card"><div class="card-body"><h6>Total Produtos</h6><h2 id="produtos">0</h2></div></div></div>
-<div class="col-md-6"><div class="card"><div class="card-body"><h6>Movimenta��es</h6><h2 id="mov">0</h2></div></div></div>
-</div>
+      <div class="card mb-3">
+        <div class="card-body">
+          <h6>Movimentaçoes no periodo</h6>
+          <canvas id="graficoMovimentacoes" height="100"></canvas>
+        </div>
+      </div>
 
-<div class="card mb-3"><div class="card-body"><h6>Movimenta��es no per�odo</h6><canvas id="graficoMovimentacoes" height="100"></canvas></div></div>
+      <div class="card">
+        <div class="card-body">
+          <h6>Movimentar Estoque</h6>
+          <div class="row g-2">
+            <div class="col-md-3">
+              <input id="m_sku" class="form-control" placeholder="SKU">
+            </div>
+            <div class="col-md-3">
+              <input id="m_corredor" class="form-control" placeholder="Corredor">
+            </div>
+            <div class="col-md-2">
+              <select id="m_tipo" class="form-select">
+                <option value="ENTRADA">Entrada</option>
+                <option value="SAIDA">Saida</option>
+              </select>
+            </div>
+            <div class="col-md-2">
+              <input id="m_qtd" type="number" class="form-control" value="1" min="1">
+            </div>
+            <div class="col-md-2">
+              <button id="btn-mov" class="btn btn-primary w-100" type="button">Enviar</button>
+            </div>
+          </div>
+          <p id="mov-res" class="mt-2 mb-0"></p>
+        </div>
+      </div>
+    </div>
+  </div>
 
-<div class="card">
-<div class="card-body">
-<h6>Movimentar Estoque</h6>
-<div class="row g-2">
-<div class="col-md-3"><input id="m_sku" class="form-control" placeholder="SKU"></div>
-<div class="col-md-3"><input id="m_corredor" class="form-control" placeholder="Corredor"></div>
-<div class="col-md-2">
-<select id="m_tipo" class="form-select"><option value="ENTRADA">Entrada</option><option value="SAIDA">Sa�da</option></select>
-</div>
-<div class="col-md-2"><input id="m_qtd" type="number" class="form-control" value="1" min="1"></div>
-<div class="col-md-2"><button id="btn-mov" class="btn btn-primary w-100" type="button">Enviar</button></div>
-</div>
-<p id="mov-res" class="mt-2 mb-0"></p>
-</div>
-</div>
-</div>
-</div>
-
-<div id="popup-alerta">
-<div id="popup-conteudo">
-<h4 class="mb-3" id="popup-titulo">Aten��o: estoque baixo</h4>
-<div id="popup-mensagem" class="mb-3"></div>
-<button class="btn btn-primary" id="fechar-popup" type="button">Fechar</button>
-</div>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-const API = "http://localhost:7007";
-const alertasExibidos = new Set();
-let grafico = null;
-
-const el = (id) => document.getElementById(id);
-const token = () => localStorage.getItem("token");
-const authHeaders = (json=false) => ({ ...(json ? {"Content-Type":"application/json"} : {}), "Authorization": `Bearer ${token()}` });
-
-function show(screen){
-  el("tela-login").classList.add("hidden");
-  el("tela-primeiro-acesso").classList.add("hidden");
-  el("tela-app").classList.add("hidden");
-  if(screen === "app"){ el("notificacao-wrapper").classList.remove("hidden"); }
-  else { el("notificacao-wrapper").classList.add("hidden"); }
-  el(`tela-${screen}`).classList.remove("hidden");
-}
-
-function sair(){ localStorage.removeItem("token"); show("login"); }
-
-async function requestJson(url, options = {}){
-  const r = await fetch(url, options);
-  if(r.status === 401){ sair(); return null; }
-  const d = await r.json();
-  if(!r.ok){ throw new Error(d.detail || "Falha na requisi��o"); }
-  return d;
-}
-
-async function login(){
-  const r = await fetch(`${API}/login`, { method:"POST", headers:{"Content-Type":"application/x-www-form-urlencoded"}, body:new URLSearchParams({email:el("email").value, senha:el("senha").value}) });
-  const d = await r.json();
-  if(!r.ok || !d.token){ el("login-res").innerText = d.detail || "Falha no login"; return; }
-  localStorage.setItem("token", d.token);
-  if(d.usuario && d.usuario.must_change_password === true){ show("primeiro-acesso"); return; }
-  await entrarApp();
-}
-
-async function trocarSenhaInicial(){
-  const d = await requestJson(`${API}/trocar-senha-inicial`, { method:"POST", headers: authHeaders(true), body: JSON.stringify({ senha_atual: el("senha_atual").value, nova_senha: el("nova_senha").value }) });
-  if(!d){ return; }
-  el("troca-res").innerText = "Senha alterada com sucesso.";
-  await entrarApp();
-}
-
-function atualizarGrafico(labels, valores){
-  const ctx = el("graficoMovimentacoes");
-  if(grafico){ grafico.destroy(); }
-  grafico = new Chart(ctx, { type:"bar", data:{ labels, datasets:[{ data: valores, backgroundColor:["#198754", "#dc3545"], borderRadius:6 }] }, options:{ plugins:{ legend:{display:false} }, scales:{ y:{ beginAtZero:true, ticks:{ precision:0 } } } } });
-}
-
-async function carregarDashboard(){
-  const d = await requestJson(`${API}/dashboard?dias=${el("dias").value}`, { headers: authHeaders() });
-  if(!d){ return; }
-  el("produtos").innerText = d.total_produtos;
-  el("mov").innerText = d.total_movimentacoes;
-  if(d.grafico){ atualizarGrafico(d.grafico.labels, d.grafico.valores); }
-}
-
-async function movimentar(){
-  try {
-    const d = await requestJson(`${API}/movimentar`, { method:"POST", headers: authHeaders(true), body: JSON.stringify({ sku: el("m_sku").value, corredor: el("m_corredor").value, tipo: el("m_tipo").value, quantidade: parseInt(el("m_qtd").value) }) });
-    if(!d){ return; }
-    el("mov-res").innerText = d.msg || "Movimenta��o registrada";
-    await carregarDashboard();
-    await carregarNotificacoes();
-  } catch(e){ el("mov-res").innerText = e.message; }
-}
-
-function classeNivel(nivel){ return nivel === "CRITICO" ? "danger" : "warning"; }
-function atualizarBadge(total, criticos){
-  const badge = el("notificacao-badge");
-  const btn = el("btn-notificacao");
-  badge.innerText = total;
-  badge.style.display = total > 0 ? "inline-flex" : "none";
-  btn.classList.remove("nivel-atencao", "nivel-critico");
-  if(criticos > 0){ btn.classList.add("nivel-critico"); }
-  else if(total > 0){ btn.classList.add("nivel-atencao"); }
-}
-function atualizarPainel(notificacoes){
-  const painel = el("painel-notificacoes");
-  if(notificacoes.length === 0){ painel.innerHTML = "<p class='mb-0'>Sem notifica��es no momento.</p>"; return; }
-  painel.innerHTML = notificacoes.map(n => `<div class='border-bottom py-2'><span class='badge text-bg-${classeNivel(n.nivel)} mb-1'>${n.nivel}</span><br><strong>${n.nome}</strong><br><small>${n.mensagem}</small></div>`).join("");
-}
-function mostrarPopup(notificacoes){
-  const novas = notificacoes.filter(n => !alertasExibidos.has(n.sku));
-  if(novas.length === 0){ return; }
-  novas.forEach(n => alertasExibidos.add(n.sku));
-  const temCritico = novas.some(n => n.nivel === "CRITICO");
-  el("popup-titulo").innerText = temCritico ? "Alerta cr�tico de estoque" : "Aten��o: estoque baixo";
-  el("popup-titulo").className = temCritico ? "mb-3 text-danger" : "mb-3 text-warning";
-  el("popup-mensagem").innerHTML = novas.map(n => `<p class='mb-2'><strong>[${n.nivel}]</strong> ${n.mensagem}</p>`).join("");
-  el("popup-alerta").style.display = "flex";
-}
-
-async function carregarNotificacoes(){
-  const d = await requestJson(`${API}/notificacoes?limite=50`, { headers: authHeaders() });
-  if(!d){ return; }
-  atualizarBadge(d.total, d.criticos);
-  atualizarPainel(d.notificacoes);
-  mostrarPopup(d.notificacoes);
-}
-
-async function entrarApp(){
-  const me = await requestJson(`${API}/me`, { headers: authHeaders() });
-  if(!me){ return; }
-  if(me.must_change_password === true){ show("primeiro-acesso"); return; }
-  el("usuario-logado").innerText = `${me.nome} (${me.email})`;
-  show("app");
-  await carregarDashboard();
-  await carregarNotificacoes();
-}
-
-el("btn-login").addEventListener("click", login);
-el("btn-sair").addEventListener("click", sair);
-el("btn-sair-1").addEventListener("click", sair);
-el("btn-trocar-senha").addEventListener("click", trocarSenhaInicial);
-el("btn-mov").addEventListener("click", movimentar);
-el("dias").addEventListener("change", carregarDashboard);
-el("btn-notificacao").addEventListener("click", () => { const p = el("painel-notificacoes"); p.style.display = p.style.display === "block" ? "none" : "block"; });
-el("fechar-popup").addEventListener("click", () => { el("popup-alerta").style.display = "none"; });
-
-if(token()){ entrarApp(); } else { show("login"); }
-setInterval(() => { if(token() && !el("tela-app").classList.contains("hidden")){ carregarNotificacoes(); } }, 30000);
-</script>
+  <div id="popup-alerta">
+    <div id="popup-conteudo">
+      <h4 class="mb-3" id="popup-titulo">Atençao: estoque baixo</h4>
+      <div id="popup-mensagem" class="mb-3"></div>
+      <button class="btn btn-primary" id="fechar-popup" type="button">Fechar</button>
+    </div>
+  </div>
 </body>
 </html>
