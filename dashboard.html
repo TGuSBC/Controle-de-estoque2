@@ -20,7 +20,7 @@
 
             <div class="row g-3 mb-3">
                 <div class="col-md-4">
-                    <label for="dias" class="form-label">Período (dias)</label>
+                    <label for="dias" class="form-label" id="days-count">Período (dias)</label>
                     <select id="dias" class="form-select">
                         <option value="7">Ultimos 7 dias</option>
                         <option value="15">Ultimos 15 dias</option>
@@ -49,15 +49,15 @@
                 </div>
             </div>
 
-            <div class="card mb-3">
-                <div class="card-body">
+            <div class="mb-3">
+                <div class="card-grafico">
                 <h6>Movimentaçoes no periodo</h6>
-                <canvas id="graficoMovimentacoes" height="100"></canvas>
+                <canvas id="graficoMovimentacoes" height="350" width="700"></canvas>
                 </div>
             </div>
 
             <div class="card">
-                <div class="card-body">
+                <div class="card-mov-estoque">
                     <h6>Movimentar Estoque</h6>
                     <div class="row g-2">
                         <div class="col-md-3">

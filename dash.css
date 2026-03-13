@@ -15,7 +15,7 @@
 }
 
 body{
-    height: 100vh;
+    min-height:100vh;
     display: flex;
     flex-direction: column;
 
@@ -28,7 +28,9 @@ main{
     display: flex;
     justify-content: center;
 
-    margin: 0 20%;
+    max-width: 1200px;
+
+    margin: 0 auto;
 }
 
 #header-nav{
@@ -77,8 +79,11 @@ main{
     flex-direction: column;
 
     padding: 20px;
-    background-color: #ffffff;
 
+    background-color: #ffffff;
+    border-radius: 3px;
+
+    box-shadow: 0 0 2px rgb(74, 74, 74);
 }
 
 .row{
@@ -86,27 +91,111 @@ main{
     flex-direction: row;
 }
 
+.col-md-4{
+    width: 100%;
+}
+
+.form-label{
+    font-size: 20px;
+}
+
 .col-md-6{
     display: flex;
 
-    margin: 0 15px;
+    margin: 20px 15px;
 
-    min-height: 100px;
+    max-height: 100px;
     min-width: 300px;
 
     padding: 10px;
     
-    border: 2px solid black; 
+    border: 1px solid rgba(0, 0, 0, 0.54); 
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.61);
     border-radius: 3px;
 }
+
+#graficoMovimentacoes{
+    width: 100%;
+    max-width: 1000px;
+    height: 350px;
+    border: 1px solid rgba(0, 0, 0, 0.467);
+    box-shadow: 0 0 2px black;
+    border-radius: 3px;
+}
+
+
+.card{
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    #header-nav{
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .col-md-6,
+    .col-md-4 {
+        min-width: 0;
+        width: 100%;
+        margin: 8px 0;
+        max-height: none;
+    }
+
+    #tela-app {
+        padding: 10px;
+    }
+
+    .form-label {
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 480px) {
+    #header-nav {
+        padding: 8px 12px;
+    }
+
+    main{
+        margin: 20px;
+    }
+
+    #userName-exit {
+        font-size: 16px;
+    }
+
+    #graficoMovimentacoes {
+        height: 300px;
+    }
+
+}
+
 
 .card-body{
     display: flex;
     flex-direction: column;
-    gap: 10px;
 }
 
-#graficoMovimentacoes{
-    border: 1px solid black;
+.card-mov-estoque{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
 }
+
+.g-2{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.g-2 input{
+    margin-bottom: 5px;
+ }
 

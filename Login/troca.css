@@ -180,9 +180,20 @@ body{
 .card-body #btn-trocar-senha{
     margin-bottom: 8px;
 
-    
+            
 }
 
+/* copia de estilo do container de login */
+.login-container {
+    width: 100%;
+    max-width: 460px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #dee2e6;
+    border-radius: 0.5rem;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+}
 
 
 
