@@ -4,13 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="dash.css">
+    <script defer src="dash.js"></script>
     <title>Document</title>
 </head>
 <body>
     <div id="header-nav" class="hidden">
                 <h1 class="mb-0">Dashboard Estoque</h1>
-                <div>
-                    <span id="usuario-logado" class="me-3 text-muted"></span>
+                <div id="userName-exit">
+                    <span id="usuario-logado" class="me-3 text-muted">Gustavo</span>
                     <button id="btn-sair" class="btn btn-outline-secondary btn-sm" type="button">Sair</button>
                 </div>
     </div>
@@ -33,7 +34,7 @@
                 <div class="col-md-6">
                 <div class="card">
                     <div class="card-body">
-                    <h6>Total Produtos</h6>
+                    <h3>Total Produtos</h3>
                     <h2 id="produtos">0</h2>
                     </div>
                 </div>
@@ -41,7 +42,7 @@
                 <div class="col-md-6">
                 <div class="card">
                     <div class="card-body">
-                    <h6>Movimentaçoes</h6>
+                    <h3>Movimentaçoes</h3>
                     <h2 id="mov">0</h2>
                     </div>
                 </div>

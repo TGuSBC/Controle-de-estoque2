@@ -19,12 +19,16 @@ body{
     display: flex;
     flex-direction: column;
 
+    background-color: #f9f9f9;
+
     font-family: var(--bs-font-sans-serif);
 }
 
 main{
     display: flex;
     justify-content: center;
+
+    margin: 0 20%;
 }
 
 #header-nav{
@@ -37,5 +41,72 @@ main{
     margin: 0 auto;
     padding: 10px 20px;
 
-    background-color: #f9f9f9;
+    background-color: #ffffff;
+
+    box-shadow: 0 0 2px rgb(74, 74, 74);
+
+    margin-bottom: 60px;
 }
+
+#header-nav .mb-0{
+    margin-bottom: 8px;
+}
+
+#userName-exit{
+    font-size: 18px;
+    font-weight: 500;
+}
+
+#userName-exit button{
+    background-color: transparent;
+    padding: 5px 10px;
+    border: none;
+
+    font-weight: 600;
+
+    margin-left: 20px;
+    
+    cursor: pointer;
+}
+
+#tela-app{
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    padding: 20px;
+    background-color: #ffffff;
+
+}
+
+.row{
+    display: flex;
+    flex-direction: row;
+}
+
+.col-md-6{
+    display: flex;
+
+    margin: 0 15px;
+
+    min-height: 100px;
+    min-width: 300px;
+
+    padding: 10px;
+    
+    border: 2px solid black; 
+    border-radius: 3px;
+}
+
+.card-body{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#graficoMovimentacoes{
+    border: 1px solid black;
+}
+
