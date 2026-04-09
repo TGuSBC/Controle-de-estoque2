@@ -151,6 +151,32 @@ main{
     margin-bottom: 5px;
 }
 
+.mov-estoque{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    width: 100%;
+}
+
+.mov-estoque input{
+    width: 100%;
+    padding: 5px;
+}
+
+.form-select{
+    margin-bottom: 5px;
+}
+
+.mov-scan-reader{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-left: 50px;
+}
+
 @media (max-width: 768px) {
     #header-nav{
         flex-direction: row;
@@ -235,6 +261,9 @@ main{
     }
 
 }
+
+
+
 
 
 

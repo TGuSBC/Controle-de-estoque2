@@ -449,3 +449,96 @@ def exportar(dbase: Session = Depends(db), _: models.Usuario = Depends(usuario_o
     wb.save(path)
 
     return FileResponse(path, filename="estoque.xlsx")
+
+#// codigo migueeeeeeeeeeeeeeeeeeeeeeeeel
+
+# (SEU CÓDIGO ORIGINAL INTACTO ATÉ O FINAL...)
+
+@app.get("/exportar")
+def exportar(dbase: Session = Depends(db), _: models.Usuario = Depends(usuario_operacional)):
+    wb = openpyxl.Workbook()
+    ws = wb.active
+    ws.append(["Produto", "SKU"])
+
+    produtos = dbase.query(models.Produto).all()
+
+    for p in produtos:
+        ws.append([p.nome, p.sku])
+
+    path = "estoque_export.xlsx"
+    wb.save(path)
+
+    return FileResponse(path, filename="estoque.xlsx")
+
+
+# ================================
+# 🚀 NOVO ENDPOINT PARA LEITOR USB
+# ================================
+@app.post("/scan-movimento")
+def scan_movimento(
+    sku: str = Form(...),
+    tipo: str = Form(...),  # entrada | saida
+    quantidade: int = Form(1),
+    corredor: str = Form("PADRAO"),
+    dbase: Session = Depends(db),
+    usuario: models.Usuario = Depends(usuario_operacional),
+):
+    """
+    Endpoint otimizado para leitor de código de barras (USB)
+    Funciona como teclado (input + ENTER)
+    """
+
+    sku = sku.strip()
+    tipo = tipo.strip().upper()
+    corredor = corredor.strip()
+
+    if tipo not in {"ENTRADA", "SAIDA"}:
+        raise HTTPException(status_code=400, detail="tipo invalido")
+
+    if quantidade <= 0:
+        raise HTTPException(status_code=400, detail="quantidade invalida")
+
+    produto = dbase.query(models.Produto).filter(models.Produto.sku == sku).first()
+    if not produto:
+        raise HTTPException(status_code=404, detail="produto nao encontrado")
+
+    # tenta achar corredor
+    cor = dbase.query(models.Corredor).filter(models.Corredor.nome == corredor).first()
+
+    # se não existir, cria automático (evita erro na expedição)
+    if not cor:
+        cor = models.Corredor(nome=corredor)
+        dbase.add(cor)
+        dbase.commit()
+        dbase.refresh(cor)
+
+    # valida estoque na saída
+    if tipo == "SAIDA":
+        saldo = saldo_produto(dbase, produto.id)
+        if saldo < quantidade:
+            raise HTTPException(
+                status_code=400,
+                detail=f"estoque insuficiente (saldo atual: {saldo})"
+            )
+
+    # cria movimentação
+    mov = models.Movimentacao(
+        produto_id=produto.id,
+        corredor_id=cor.id,
+        tipo=tipo,
+        quantidade=quantidade,
+        usuario_id=usuario.id,
+    )
+
+    dbase.add(mov)
+    dbase.commit()
+
+    novo_saldo = saldo_produto(dbase, produto.id)
+
+    return {
+        "msg": f"{tipo.lower()} registrada",
+        "produto": produto.nome,
+        "sku": produto.sku,
+        "quantidade": quantidade,
+        "saldo": novo_saldo
+    }
